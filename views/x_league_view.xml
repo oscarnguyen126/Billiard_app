@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+    <data>
+        <record id="league_form" model="ir.ui.view">
+            <field name="name">x.league.form</field>
+            <field name="model">x.league</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button type="object" name="action_show_matches" string="Matches"
+                              class="oe_stat_button" icon="fa-calendar">
+                            </button>
+                            <button type="object" name="action_open_fee" string="Fee"
+                              class="oe_stat_button" icon="fa-calendar">
+                                <field name="total_fee"/>
+                            </button>
+                        </div>
+                        <group>
+                            <field name="name"/>
+                            <field name="law_id"/>
+<!--                            <field name="match_ids">-->
+<!--                                <tree editable="bottom">-->
+<!--                                    <field name="formula"/>-->
+<!--                                    <field name="player1_id"/>-->
+<!--                                    <field name="player2_id" options="{'no_create': True, 'no_create_edit': True}"/>-->
+<!--                                    <field name="team_id1"/>-->
+<!--                                    <field name="team_id2"/>-->
+<!--                                    <field name="line_ids"/>-->
+<!--                                </tree>-->
+<!--                            </field>-->
+                        </group>
+                        <notebook>
+                            <page string="Player">
+                                <field name="player_ids"/>
+                            </page>
+                            <page string="Team">
+                                <field name="team_ids"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="league_tree" model="ir.ui.view">
+            <field name="name">x.league.tree</field>
+            <field name="model">x.league</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="law_id"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="league_des" model="ir.actions.act_window">
+            <field name="name">League</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">x.league</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

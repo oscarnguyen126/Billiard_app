@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+    <data>
+        <record id="match_form" model="ir.ui.view">
+            <field name="name">x.match.form</field>
+            <field name="model">x.match</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="league_id"/>
+                                <field name="formula"/>
+                                <field name="playing_type"/>
+                            </group>
+                            <group>
+                                <field name="start_time"/>
+                                <field name="location"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="player1_id" attrs="{'invisible': [('formula', '=', 'dual')], 'required': [('formula', '=', 'solo')]}"/>
+                                <field name="team_id1" attrs="{'invisible': [('formula', '=', 'solo')], 'required': [('formula', '=', 'dual')]}"/>
+                            </group>
+                            <group>
+                                <field name="player2_id" options="{'no_create': True, 'no_create_edit': True}"
+                                       attrs="{'invisible': [('formula', '=', 'dual')], 'required': [('formula', '=', 'solo')]}"/>
+                                <field name="team_id2" attrs="{'invisible': [('formula', '=', 'solo')], 'required': [('formula', '=', 'dual')]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Result">
+                                <field name="line_ids">
+                                    <tree editable="bottom" create="0" edit="1" delete="0" >
+                                        <field name="player_id" readonly="1"/>
+                                        <field name="team_id" readonly="1"/>
+                                        <field name="ball"/>
+                                        <field name="is_win"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="match_tree" model="ir.ui.view">
+            <field name="name">x.match.tree</field>
+            <field name="model">x.match</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="league_id"/>
+                    <field name="formula"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="match_result" model="ir.actions.act_window">
+            <field name="name">Match result</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">x.match</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

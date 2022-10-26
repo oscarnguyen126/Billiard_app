@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+    <data>
+        <record id="match_detail_form" model="ir.ui.view">
+            <field name="name">x.match.detail.form</field>
+            <field name="model">x.match.detail</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="player_id" options="{'no_create': True, 'no_create_edit': True}"/>
+                            <field name="team_id" options="{'no_create': True, 'no_create_edit': True}"/>
+                            <field name="ball"/>
+                            <field name="is_win"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="match_detail_tree" model="ir.ui.view">
+            <field name="name">x.match.detail.tree</field>
+            <field name="model">x.match.detail</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="player_id" options="{'no_create': True, 'no_create_edit': True}"/>
+                    <field name="team_id" options="{'no_create': True, 'no_create_edit': True}"/>
+                    <field name="ball"/>
+                    <field name="is_win"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="list_match" model="ir.actions.act_window">
+            <field name="name">Match detail</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">x.match.detail</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

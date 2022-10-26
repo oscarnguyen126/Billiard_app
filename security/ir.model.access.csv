@@ -1,0 +1,8 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+access_x_player,access_x_player,model_x_player,base.group_user,1,1,1,1
+access_x_match_detail,access_x_match_detail,model_x_match_detail,base.group_user,1,1,1,1
+access_x_match,access_x_match,model_x_match,base.group_user,1,1,1,1
+access_x_team,access_x_team,model_x_team,base.group_user,1,1,1,1
+access_x_league_type,access_x_league_type,model_x_league_type,base.group_user,1,1,1,1
+access_x_league,access_x_league,model_x_league,base.group_user,1,1,1,1
+access_x_fee,access_x_fee,model_x_fee,base.group_user,1,1,1,1

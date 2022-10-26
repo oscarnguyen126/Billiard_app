@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <menuitem id="league_action" name="League"
+              action="billiard_app.league_des"/>
+    <menuitem id="billiard_action" name="Hồ sơ tuyển thủ"
+              parent = 'billiard_app.league_action'
+              action="billiard_app.list_player"/>
+<!--    <menuitem id="detail_action" name="Chi tiết trận đấu"-->
+<!--              parent = 'billiard_app.league_action'-->
+<!--              action="billiard_app.list_match"/>-->
+    <menuitem id="result_action" name="Trận đấu"
+              parent = 'billiard_app.league_action'
+              action="billiard_app.match_result"/>
+    <menuitem id="team_action" name="Team"
+              parent = 'billiard_app.league_action'
+              action="billiard_app.list_team"/>
+    <menuitem id="league_type_action" name="Law"
+              parent = 'billiard_app.league_action'
+              action="billiard_app.league_type"/>
+    <menuitem id="report_match_detail_menu" name="Report"
+              parent = 'billiard_app.league_action'
+              action="billiard_app.report_match_detail"/>
+    <menuitem id="fee_action" name="Fee"
+              parent = 'billiard_app.league_action'
+              action="billiard_app.list_fee"/>
+</odoo>

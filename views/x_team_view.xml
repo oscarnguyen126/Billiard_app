@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+    <data>
+        <record id="team_form" model="ir.ui.view">
+            <field name="name">x.team.form</field>
+            <field name="model">x.team</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <notebook>
+                            <page string="Players">
+                                <field name="player_ids"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="team_tree" model="ir.ui.view">
+            <field name="name">x.team.tree</field>
+            <field name="model">x.team</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="player_ids" widget="many2many_tags"/>
+                </tree>
+            </field>
+        </record>
+
+
+       <record id="list_team" model="ir.actions.act_window">
+            <field name="name">Team</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">x.team</field>
+            <field name="view_mode">tree,form</field>
+       </record>
+
+    </data>
+</odoo>
