@@ -17,23 +17,27 @@
                             <group>
                                 <field name="start_time"/>
                                 <field name="location"/>
+                                <field name="winner"/>
                             </group>
                         </group>
                         <group>
                             <group>
-                                <field name="player1_id" attrs="{'invisible': [('formula', '=', 'dual')], 'required': [('formula', '=', 'solo')]}"/>
-                                <field name="team_id1" attrs="{'invisible': [('formula', '=', 'solo')], 'required': [('formula', '=', 'dual')]}"/>
+                                <field name="player1_id"
+                                       attrs="{'invisible': [('formula', '=', 'dual')], 'required': [('formula', '=', 'solo')]}"/>
+                                <field name="team_id1"
+                                       attrs="{'invisible': [('formula', '=', 'solo')], 'required': [('formula', '=', 'dual')]}"/>
                             </group>
                             <group>
                                 <field name="player2_id" options="{'no_create': True, 'no_create_edit': True}"
                                        attrs="{'invisible': [('formula', '=', 'dual')], 'required': [('formula', '=', 'solo')]}"/>
-                                <field name="team_id2" attrs="{'invisible': [('formula', '=', 'solo')], 'required': [('formula', '=', 'dual')]}"/>
+                                <field name="team_id2"
+                                       attrs="{'invisible': [('formula', '=', 'solo')], 'required': [('formula', '=', 'dual')]}"/>
                             </group>
                         </group>
                         <notebook>
                             <page string="Result">
                                 <field name="line_ids">
-                                    <tree editable="bottom" create="0" edit="1" delete="0" >
+                                    <tree editable="bottom" create="0" edit="1" delete="0">
                                         <field name="player_id" readonly="1"/>
                                         <field name="team_id" readonly="1"/>
                                         <field name="ball"/>
@@ -43,6 +47,10 @@
                             </page>
                         </notebook>
                     </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                    </div>
                 </form>
             </field>
         </record>
@@ -53,9 +61,28 @@
             <field name="model">x.match</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="league_id"/>
+                    <field name="name"/>
                     <field name="formula"/>
+                    <field name="playing_type"/>
+                    <field name="winner"/>
                 </tree>
+            </field>
+        </record>
+
+
+        <record id="match_search" model="ir.ui.view">
+            <field name="name">x.match.search</field>
+            <field name="model">x.match</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="league_id"/>
+                    <field name="name"/>
+                    <field name="formula"/>
+                    <field name="playing_type"/>
+                    <field name="start_time"/>
+                    <field name="location"/>
+                    <field name="winner"/>
+                </search>
             </field>
         </record>
 

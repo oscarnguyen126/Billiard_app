@@ -7,12 +7,14 @@
             <field name="model">x.fee</field>
             <field name="arch" type="xml">
                 <form>
+                    <header>
+                            <field name="status" widget="statusbar" statusbar_visible="draft,paid,cancelled"/>
+                    </header>
                     <sheet>
                         <group>
                             <group>
                                 <field name="name"/>
                                 <field name="play_day"/>
-                                <field name="playing_time"/>
                                 <field name="location"/>
                             </group>
                             <group>
@@ -21,19 +23,25 @@
                                 <field name="league_id"/>
                             </group>
                         </group>
+                        <label for="note"/>
+                        <field name="note"/>
                     </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                    </div>
                 </form>
             </field>
         </record>
 
 
-        <record id="player_tree" model="ir.ui.view">
+        <record id="fee_tree" model="ir.ui.view">
             <field name="name">x.fee.tree</field>
             <field name="model">x.fee</field>
             <field name="arch" type="xml">
                 <tree>
+                    <field name="name"/>
                     <field name="play_day"/>
-                    <field name="playing_time"/>
                     <field name="fee_total"/>
                     <field name="payer"/>
                     <field name="location"/>
@@ -43,11 +51,37 @@
         </record>
 
 
+        <record id="fee_search" model="ir.ui.view">
+            <field name="name">x.fee.search</field>
+            <field name="model">x.fee</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="play_day"/>
+                    <field name="fee_total"/>
+                    <field name="payer"/>
+                    <field name="location"/>
+                    <field name="league_id"/>
+                </search>
+            </field>
+        </record>
+
+
         <record id="list_fee" model="ir.actions.act_window">
             <field name="name">Fee</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">x.fee</field>
             <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="unique_sequence_id" model="ir.sequence">
+            <field name="name">League_fee</field>
+            <field name="code">x.fee</field>
+            <field name="active">TRUE</field>
+            <field name="prefix">FE</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
         </record>
 
     </data>
