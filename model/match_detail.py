@@ -9,7 +9,7 @@ class MatchDetail(models.Model):
     ball = fields.Integer(string='Balls')
     is_win = fields.Boolean(string='Win')
     x_match_id = fields.Many2one('x.match', string=_('Match'))
-    league_id = fields.Many2one('x.league', related='x_match_id.league_id', store=True)
+    league_id = fields.Many2one(related='x_match_id.league_id', store=True)
     score_win = fields.Integer('Win', compute='compute_score_win', store=True)
 
     @api.depends('is_win')

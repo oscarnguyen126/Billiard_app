@@ -1,26 +1,35 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <menuitem id="league_action" name="League"
-              action="billiard_app.league_des"/>
-    <menuitem id="billiard_action" name="Hồ sơ tuyển thủ"
-              parent = 'billiard_app.league_action'
-              action="billiard_app.list_player"/>
-<!--    <menuitem id="detail_action" name="Chi tiết trận đấu"-->
-<!--              parent = 'billiard_app.league_action'-->
-<!--              action="billiard_app.list_match"/>-->
-    <menuitem id="result_action" name="Trận đấu"
-              parent = 'billiard_app.league_action'
-              action="billiard_app.match_result"/>
+    <menuitem id="league_submenu_root" name="League"/>
+    <menuitem id="league_more_info" name="More"
+              parent='billiard_app.league_submenu_root'
+              sequence="45"/>
+    <menuitem id="league_action" name="League detail"
+              parent='billiard_app.league_submenu_root'
+              action="billiard_app.league_des"
+              sequence="5"/>
+    <menuitem id="billiard_action" name="Player's profile"
+              parent='billiard_app.league_more_info'
+              action="billiard_app.list_player"
+              sequence="10"/>
     <menuitem id="team_action" name="Team"
-              parent = 'billiard_app.league_action'
-              action="billiard_app.list_team"/>
+              parent='billiard_app.league_more_info'
+              action="billiard_app.list_team"
+              sequence="15"/>
+    <menuitem id="result_action" name="Matches"
+              parent='billiard_app.league_submenu_root'
+              action="billiard_app.match_result"
+              sequence="20"/>
     <menuitem id="league_type_action" name="Law"
-              parent = 'billiard_app.league_action'
-              action="billiard_app.league_type"/>
+              parent='billiard_app.league_more_info'
+              action="billiard_app.league_type"
+              sequence="25"/>
     <menuitem id="report_match_detail_menu" name="Report"
-              parent = 'billiard_app.league_action'
-              action="billiard_app.report_match_detail"/>
+              parent='billiard_app.league_submenu_root'
+              action="billiard_app.report_match_detail"
+              sequence="30"/>
     <menuitem id="fee_action" name="Fee"
-              parent = 'billiard_app.league_action'
-              action="billiard_app.list_fee"/>
+              parent='billiard_app.league_submenu_root'
+              action="billiard_app.list_fee"
+              sequence="35"/>
 </odoo>

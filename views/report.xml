@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <record id="report_match_detail" model="ir.actions.act_window">
-        <field name="name">Report</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">x.match.detail</field>
-        <field name="view_mode">pivot</field>
-    </record>
+        <record id="report_match_detail" model="ir.actions.act_window">
+            <field name="name">Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">x.match.detail</field>
+            <field name="view_mode">pivot</field>
+        </record>
 </odoo>

@@ -15,6 +15,10 @@
                             <field name="level"/>
                         </group>
                     </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                    </div>
                 </form>
             </field>
         </record>
@@ -34,12 +38,12 @@
         </record>
 
 
-       <record id="list_player" model="ir.actions.act_window">
+        <record id="list_player" model="ir.actions.act_window">
             <field name="name">Player</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">x.player</field>
             <field name="view_mode">tree,form</field>
-       </record>
+        </record>
 
     </data>
 </odoo>
