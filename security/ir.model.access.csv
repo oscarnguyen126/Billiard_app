@@ -6,3 +6,5 @@ access_x_team,access_x_team,model_x_team,base.group_user,1,1,1,1
 access_x_league_type,access_x_league_type,model_x_league_type,base.group_user,1,1,1,1
 access_x_league,access_x_league,model_x_league,base.group_user,1,1,1,1
 access_x_fee,access_x_fee,model_x_fee,base.group_user,1,1,1,1
+access_x_fund,access_x_fund,model_x_fund,base.group_user,1,1,1,1
+access_x_budget,access_x_budget,model_x_budget,base.group_user,1,1,1,1

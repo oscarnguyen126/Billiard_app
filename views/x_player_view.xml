@@ -8,11 +8,23 @@
             <field name="arch" type="xml">
                 <form>
                     <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button type="object" name="league_participated" string="League participated"
+                                    class="oe_stat_button" icon="fa-calendar">
+                            </button>
+                        </div>
+                        <field name="photo" widget="image" class="oe_avatar"/>
                         <group>
-                            <field name="name"/>
-                            <field name="photo"/>
-                            <field name="bday"/>
-                            <field name="level"/>
+                            <group>
+                                <field name="name"/>
+                                <field name="bday"/>
+                                <field name="place_of_birth"/>
+                            </group>
+                            <group>
+                                <field name="age"/>
+<!--                                <field name="hand"/>-->
+                                <field name="phone"/>
+                            </group>
                         </group>
                     </sheet>
                     <div class="oe_chatter">
@@ -30,10 +42,26 @@
             <field name="arch" type="xml">
                 <tree>
                     <field name="name"/>
-                    <field name="photo"/>
                     <field name="bday"/>
-                    <field name="level"/>
+                    <field name="place_of_birth"/>
+                    <field name="age"/>
+<!--                    <field name="hand"/>-->
+                    <field name="phone"/>
                 </tree>
+            </field>
+        </record>
+
+
+        <record id="player_search" model="ir.ui.view">
+            <field name="name">x.player.search</field>
+            <field name="model">x.player</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="bday"/>
+                    <field name="age"/>
+                    <field name="phone"/>
+                </search>
             </field>
         </record>
 

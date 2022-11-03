@@ -7,31 +7,34 @@
             <field name="model">x.match</field>
             <field name="arch" type="xml">
                 <form>
+                    <header>
+                        <field name="status" widget="statusbar" statusbar_visible="draft,progress,completed" options="{'clickable': '1'}"/>
+                    </header>
                     <sheet>
                         <group>
                             <group>
                                 <field name="league_id"/>
-                                <field name="formula"/>
-                                <field name="playing_type"/>
+                                <field name="type_league"/>
+<!--                                <field name="playing_type"/>-->
                             </group>
                             <group>
                                 <field name="start_time"/>
-                                <field name="location"/>
-                                <field name="winner"/>
+<!--                                <field name="location"/>-->
+                                <field name="winner" attrs="{'invisible': [('status','in',('draft','progress'))]}"/>
                             </group>
                         </group>
                         <group>
                             <group>
                                 <field name="player1_id"
-                                       attrs="{'invisible': [('formula', '=', 'dual')], 'required': [('formula', '=', 'solo')]}"/>
+                                       attrs="{'invisible': [('type_league', '=', 'dual')], 'required': [('type_league', '=', 'solo')]}"/>
                                 <field name="team_id1"
-                                       attrs="{'invisible': [('formula', '=', 'solo')], 'required': [('formula', '=', 'dual')]}"/>
+                                       attrs="{'invisible': [('type_league', '=', 'solo')], 'required': [('type_league', '=', 'dual')]}"/>
                             </group>
                             <group>
                                 <field name="player2_id" options="{'no_create': True, 'no_create_edit': True}"
-                                       attrs="{'invisible': [('formula', '=', 'dual')], 'required': [('formula', '=', 'solo')]}"/>
+                                       attrs="{'invisible': [('type_league', '=', 'dual')], 'required': [('type_league', '=', 'solo')]}"/>
                                 <field name="team_id2"
-                                       attrs="{'invisible': [('formula', '=', 'solo')], 'required': [('formula', '=', 'dual')]}"/>
+                                       attrs="{'invisible': [('type_league', '=', 'solo')], 'required': [('type_league', '=', 'dual')]}"/>
                             </group>
                         </group>
                         <notebook>
@@ -60,11 +63,13 @@
             <field name="name">x.match.tree</field>
             <field name="model">x.match</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree decoration-muted="status == 'draft' " decoration-success="status == 'completed'"
+                      decoration-info="status == 'progress'">
                     <field name="name"/>
-                    <field name="formula"/>
-                    <field name="playing_type"/>
+                    <field name="type_league"/>
+<!--                    <field name="playing_type"/>-->
                     <field name="winner"/>
+                    <field name="status"/>
                 </tree>
             </field>
         </record>
@@ -77,12 +82,13 @@
                 <search>
                     <field name="league_id"/>
                     <field name="name"/>
-                    <field name="formula"/>
+                    <field name="type_league"/>
                     <field name="playing_type"/>
                     <field name="start_time"/>
                     <field name="location"/>
                     <field name="winner"/>
-                </search>
+                    <field name="status"/>
+                    </search>
             </field>
         </record>
 

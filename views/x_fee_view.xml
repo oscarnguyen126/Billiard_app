@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                            <field name="status" widget="statusbar" statusbar_visible="draft,paid,cancelled"/>
+                            <field name="status" widget="statusbar" statusbar_visible="draft,paid,refunded" options="{'clickable': '1'}"/>
                     </header>
                     <sheet>
                         <group>
@@ -21,6 +21,7 @@
                                 <field name="fee_total"/>
                                 <field name="payer"/>
                                 <field name="league_id"/>
+                                <field name="budget_id"/>
                             </group>
                         </group>
                         <label for="note"/>
@@ -39,13 +40,16 @@
             <field name="name">x.fee.tree</field>
             <field name="model">x.fee</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree decoration-muted="status == 'draft' " decoration-success="status == 'paid'"
+                      decoration-info="status == 'refunded'">
                     <field name="name"/>
                     <field name="play_day"/>
                     <field name="fee_total"/>
                     <field name="payer"/>
                     <field name="location"/>
                     <field name="league_id"/>
+                    <field name="budget_id"/>
+                    <field name="status"/>
                 </tree>
             </field>
         </record>
@@ -74,15 +78,15 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <record id="unique_sequence_id" model="ir.sequence">
-            <field name="name">League_fee</field>
-            <field name="code">x.fee</field>
-            <field name="active">TRUE</field>
-            <field name="prefix">FE</field>
-            <field name="padding">5</field>
-            <field name="number_next">1</field>
-            <field name="number_increment">1</field>
-        </record>
+<!--        <record id="unique_sequence_id" model="ir.sequence">-->
+<!--            <field name="name">League_fee</field>-->
+<!--            <field name="code">x.fee</field>-->
+<!--            <field name="active">TRUE</field>-->
+<!--            <field name="prefix">FE</field>-->
+<!--            <field name="padding">5</field>-->
+<!--            <field name="number_next">1</field>-->
+<!--            <field name="number_increment">1</field>-->
+<!--        </record>-->
 
     </data>
 </odoo>

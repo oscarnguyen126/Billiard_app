@@ -8,7 +8,12 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <field name="status" widget="statusbar" statusbar_visible="progress,completed"/>
+                        <button type="object" name="start_league_button" string="Start league"
+                                attrs="{'invisible': [('status','in',('progress', 'cancelled'))]}"
+                                class="oe_highlight"/>
+                        <button type="object" name="cancel_league_button" string="Cancel league"
+                                attrs="{'invisible': [('status','in',('draft', 'cancelled'))]}" class="oe_highlight"/>
+                        <field name="status" widget="statusbar" statusbar_visible="draft,progress,completed,cancelled"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
@@ -25,6 +30,9 @@
                                 <field name="name"/>
                                 <field name="law_id"/>
                                 <field name="type"/>
+                                <field name="total_player" attrs="{'invisible': [('type','=','dual')]}"/>
+                                <field name="total_team" attrs="{'invisible': [('type','=','solo')]}"/>
+                                <field name="total_matches"/>
                                 <!--                            <field name="match_ids">-->
                                 <!--                                <tree editable="bottom">-->
                                 <!--                                    <field name="formula"/>-->
@@ -39,6 +47,9 @@
                             <group>
                                 <field name="start_date"/>
                                 <field name="stop_date"/>
+                                <field name="location"/>
+                                <field name="champion"
+                                       attrs="{'invisible': [('status','in',('draft','progress','cancelled'))]}"/>
                             </group>
                         </group>
                         <notebook>
@@ -49,7 +60,7 @@
                                 <field name="team_ids"/>
                             </page>
                         </notebook>
-                         <label for="note"/>
+                        <label for="note"/>
                         <field name="note"/>
                     </sheet>
                     <div class="oe_chatter">
@@ -65,13 +76,15 @@
             <field name="name">x.league.tree</field>
             <field name="model">x.league</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree decoration-muted="status == 'draft' " decoration-success="status == 'completed'"
+                      decoration-danger="status == 'cancelled'">
                     <field name="name"/>
                     <field name="law_id"/>
                     <field name="type"/>
                     <field name="start_date"/>
                     <field name="stop_date"/>
                     <field name="status"/>
+                    <field name="champion" attrs="{'invisible': [('status','in',('draft','progress'))]}"/>
                 </tree>
             </field>
         </record>
@@ -93,10 +106,15 @@
 
 
         <record id="league_des" model="ir.actions.act_window">
-            <field name="name">League</field>
+            <field name="name">Billiard</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">x.league</field>
             <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Welcome to the Billiard Club!
+                </p>
+            </field>
         </record>
 
     </data>
