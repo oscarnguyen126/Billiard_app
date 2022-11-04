@@ -12,10 +12,9 @@ class Fee(models.Model):
     fee_total = fields.Float(string=_('Fee total (VND)'), required=True, tracking=True)
     payer = fields.Many2one('x.player', string=_('Who pay?'), required=True, tracking=True)
     league_id = fields.Many2one('x.league', string=_('League'), tracking=True)
-    status = fields.Selection([('draft', 'Draft'), ('paid', 'Paid'), ('refunded', 'Refunded')], default='draft',
-                              tracking=True)
+    state = fields.Selection([('draft', 'Draft'), ('refunded', 'Refunded')], default='draft', tracking=True)
     note = fields.Text(string=_('Note'))
-    budget_id = fields.Many2one('x.budget', string=_('Refund by'))
+    budget_id = fields.Many2one('x.budget', string=_('Refund by'), required=True)
 
     # @api.model
     # def create(self, vals):
@@ -23,3 +22,9 @@ class Fee(models.Model):
     #         vals['name'] = self.env['ir.sequence'].next_by_code('x.fee') or 'New'
     #     result = super(Fee, self).create(vals)
     #     return result
+
+    def refund_button(self):
+        for record in self:
+            record.state = 'refunded'
+            record.budget_id.compute_fee()
+

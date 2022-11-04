@@ -8,20 +8,23 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                            <field name="status" widget="statusbar" statusbar_visible="draft,paid,refunded" options="{'clickable': '1'}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,refunded"/>
+                        <button type="object" name="refund_button" string="Refund"
+                                attrs="{'invisible': [('state','=','refunded')]}"
+                                class="oe_highlight" groups="billiard_app.billiard_group_admin"/>
                     </header>
                     <sheet>
                         <group>
                             <group>
-                                <field name="name"/>
-                                <field name="play_day"/>
-                                <field name="location"/>
+                                <field name="name" attrs="{'readonly': [('state','=', 'refunded')]}"/>
+                                <field name="play_day" attrs="{'readonly': [('state','=', 'refunded')]}"/>
+                                <field name="location" attrs="{'readonly': [('state','=', 'refunded')]}"/>
                             </group>
                             <group>
-                                <field name="fee_total"/>
-                                <field name="payer"/>
-                                <field name="league_id"/>
-                                <field name="budget_id"/>
+                                <field name="fee_total" attrs="{'readonly': [('state','=', 'refunded')]}"/>
+                                <field name="payer" attrs="{'readonly': [('state','=', 'refunded')]}"/>
+                                <field name="league_id" attrs="{'readonly': [('state','=', 'refunded')]}"/>
+                                <field name="budget_id" attrs="{'readonly': [('state','=', 'refunded')]}"/>
                             </group>
                         </group>
                         <label for="note"/>
@@ -40,8 +43,7 @@
             <field name="name">x.fee.tree</field>
             <field name="model">x.fee</field>
             <field name="arch" type="xml">
-                <tree decoration-muted="status == 'draft' " decoration-success="status == 'paid'"
-                      decoration-info="status == 'refunded'">
+                <tree decoration-muted="state == 'draft' " decoration-success="state == 'refunded'">
                     <field name="name"/>
                     <field name="play_day"/>
                     <field name="fee_total"/>
@@ -49,7 +51,7 @@
                     <field name="location"/>
                     <field name="league_id"/>
                     <field name="budget_id"/>
-                    <field name="status"/>
+                    <field name="state"/>
                 </tree>
             </field>
         </record>

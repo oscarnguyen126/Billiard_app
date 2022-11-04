@@ -4,7 +4,8 @@
     'application': True,
     'installable': True,
     'depends': ['base', 'mail'],
-    'data': ['security/ir.model.access.csv',
+    'data': ['security/groups.xml',
+             'security/ir.model.access.csv',
              'views/x_player_view.xml',
              'views/x_league_view.xml',
              'views/report.xml',
@@ -15,7 +16,8 @@
              'views/x_fee_view.xml',
              'views/x_player_menu.xml',
              'views/x_fund.xml',
-             'views/x_budget.xml'
+             'views/x_budget.xml',
+             'views/x_standing.xml',
              ],
     'license': 'GPL-3',
 }

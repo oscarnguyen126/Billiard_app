@@ -4,14 +4,15 @@ from odoo import fields, models, _, api
 class League(models.Model):
     _name = 'x.league'
     _inherit = ['mail.thread']
+    _order = 'start_date desc'
 
     name = fields.Char(string=_('Name'), required=True)
     match_ids = fields.One2many('x.match', 'league_id')
     law_id = fields.Many2one('x.league.type', required=True)
     type = fields.Selection([('solo', 'Solo'), ('dual', 'Dual')], required=True)
-    player_ids = fields.Many2many('x.player', 'x_player_x_league_rel', 'league_id', 'player_id')
+    player_ids = fields.Many2many('x.player', 'x_player_x_league_rel', 'league_id', 'player_id', required=True)
     team_ids = fields.Many2many('x.team', 'x_team_x_league_rel', 'league_id', 'team_id')
-    fee_ids = fields.One2many('x.fee', 'league_id')
+    fee_ids = fields.One2many('x.fee', 'league_id', required=True)
     total_fee = fields.Float(string=_('Total fee'), compute='compute_fee')
     start_date = fields.Date(string=_('Start date'), required=True)
     stop_date = fields.Date(string=_('End date'), required=True)
@@ -20,10 +21,11 @@ class League(models.Model):
         default='draft')
     note = fields.Text(string=_('Note'))
     champion = fields.Char(string=_('The champion'))
-    location = fields.Selection([('nvh', 'Sonic Club'), ('cf', 'Đây coffee')], tracking=True)
+    location = fields.Char(string=_('Location'))
     total_player = fields.Integer(string='Total player', compute='compute_player', tracking=True)
     total_team = fields.Integer(string=_('Total team'), compute='compute_team', tracking=True)
-    total_matches = fields.Integer(string=_('Total match'), compute='compute_match')
+    total_matches = fields.Integer(string=_('Total match'))
+    standing_id = fields.One2many('x.standing', 'league_id', string=_('Standing'))
 
     def compute_fee(self):
         for rec in self:
@@ -73,15 +75,18 @@ class League(models.Model):
     def start_league_button(self):
         self.status = 'progress'
 
+    def end_league_button(self):
+        self.status = 'completed'
+
     @api.onchange('champion')
     def onchange_status(self):
         if self.champion:
             self.status = 'completed'
 
-    @api.onchange('total_player', 'total_team')
-    def compute_match(self):
-        for record in self:
-            if record.total_player:
-                record.total_matches = (record.total_player - 1) * record.total_player
-            if record.total_team:
-                record.total_matches = (record.total_team - 1) * record.total_team
+    # @api.onchange('total_player', 'total_team')
+    # def compute_match(self):
+    #     for record in self:
+    #         if record.total_player:
+    #             record.total_matches = (record.total_player - 1) * record.total_player
+    #         if record.total_team:
+    #             record.total_matches = (record.total_team - 1) * record.total_team

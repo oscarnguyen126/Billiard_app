@@ -15,6 +15,10 @@
               parent='billiard_app.league_action'
               action="billiard_app.list_team"
               sequence="20"/>
+     <menuitem id="stand_action" name="Standing"
+              parent='billiard_app.league_action'
+              action="billiard_app.standing_action"
+              sequence="20"/>
     <menuitem id="result_action" name="Matches"
               parent='billiard_app.league_action'
               action="billiard_app.match_result"
@@ -38,8 +42,8 @@
               parent='billiard_app.budget_menu'
               action="billiard_app.list_fee"
               sequence="30"/>
-<!--    <menuitem id="fund_action" name="Budget charge"-->
-<!--              parent='billiard_app.budget_menu'-->
-<!--              action="billiard_app.list_fund_action"-->
-<!--              sequence="30"/>-->
+    <menuitem id="fund_action" name="Budget charge"
+              parent='billiard_app.budget_menu'
+              action="billiard_app.list_fund_action"
+              sequence="25"/>
 </odoo>

@@ -9,10 +9,13 @@
                 <form>
                     <header>
                         <button type="object" name="start_league_button" string="Start league"
-                                attrs="{'invisible': [('status','in',('progress', 'cancelled'))]}"
+                                attrs="{'invisible': [('status','in',('progress', 'completed', 'cancelled'))]}"
+                                class="oe_highlight"/>
+                        <button type="object" name="end_league_button" string="End league"
+                                attrs="{'invisible': [('status','in',('draft', 'completed', 'cancelled'))]}"
                                 class="oe_highlight"/>
                         <button type="object" name="cancel_league_button" string="Cancel league"
-                                attrs="{'invisible': [('status','in',('draft', 'cancelled'))]}" class="oe_highlight"/>
+                                attrs="{'invisible': [('status','in',('draft', 'completed', 'cancelled'))]}" class="oe_highlight"/>
                         <field name="status" widget="statusbar" statusbar_visible="draft,progress,completed,cancelled"/>
                     </header>
                     <sheet>
@@ -27,12 +30,12 @@
                         </div>
                         <group>
                             <group>
-                                <field name="name"/>
-                                <field name="law_id"/>
-                                <field name="type"/>
+                                <field name="name" attrs="{'readonly': [('status','in',('progress', 'completed', 'cancelled'))]}"/>
+                                <field name="law_id" attrs="{'readonly': [('status','in',('progress', 'completed', 'cancelled'))]}"/>
+                                <field name="type" attrs="{'readonly': [('status','in',('progress', 'completed', 'cancelled'))]}"/>
                                 <field name="total_player" attrs="{'invisible': [('type','=','dual')]}"/>
                                 <field name="total_team" attrs="{'invisible': [('type','=','solo')]}"/>
-                                <field name="total_matches"/>
+                                <field name="total_matches" attrs="{'readonly': [('status','in',('progress', 'completed', 'cancelled'))]}"/>
                                 <!--                            <field name="match_ids">-->
                                 <!--                                <tree editable="bottom">-->
                                 <!--                                    <field name="formula"/>-->
@@ -45,19 +48,19 @@
                                 <!--                            </field>-->
                             </group>
                             <group>
-                                <field name="start_date"/>
-                                <field name="stop_date"/>
-                                <field name="location"/>
-                                <field name="champion"
-                                       attrs="{'invisible': [('status','in',('draft','progress','cancelled'))]}"/>
+                                <field name="start_date" attrs="{'readonly': [('status','in',('progress', 'completed', 'cancelled'))]}"/>
+                                <field name="stop_date" attrs="{'readonly': [('status','in',('progress', 'completed', 'cancelled'))]}"/>
+                                <field name="location" attrs="{'readonly': [('status','in',('progress', 'completed', 'cancelled'))]}"/>
+<!--                                <field name="champion"-->
+<!--                                       attrs="{'invisible': [('status','in',('draft','progress','cancelled'))]}"/>-->
                             </group>
                         </group>
                         <notebook>
                             <page string="Player">
-                                <field name="player_ids"/>
+                                <field name="player_ids" widget="many2many_tags"/>
                             </page>
                             <page string="Team">
-                                <field name="team_ids"/>
+                                <field name="team_ids" widget="many2many_tags"/>
                             </page>
                         </notebook>
                         <label for="note"/>
@@ -84,7 +87,7 @@
                     <field name="start_date"/>
                     <field name="stop_date"/>
                     <field name="status"/>
-                    <field name="champion" attrs="{'invisible': [('status','in',('draft','progress'))]}"/>
+<!--                    <field name="champion" attrs="{'invisible': [('status','in',('draft','progress'))]}"/>-->
                 </tree>
             </field>
         </record>
