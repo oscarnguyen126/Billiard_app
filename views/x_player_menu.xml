@@ -1,35 +1,49 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <menuitem id="league_submenu_root" name="League"/>
-    <menuitem id="league_more_info" name="More"
-              parent='billiard_app.league_submenu_root'
-              sequence="45"/>
+    <menuitem id="league_submenu_root" name="Billiard"/>
     <menuitem id="league_action" name="League detail"
-              parent='billiard_app.league_submenu_root'
+              parent="billiard_app.league_submenu_root"/>
+    <menuitem id="league_submenu" name="League"
+              parent='billiard_app.league_action'
               action="billiard_app.league_des"
               sequence="5"/>
-    <menuitem id="billiard_action" name="Player's profile"
-              parent='billiard_app.league_more_info'
+    <menuitem id="billiard_action" name="Player"
+              parent='billiard_app.league_action'
               action="billiard_app.list_player"
-              sequence="10"/>
-    <menuitem id="team_action" name="Team"
-              parent='billiard_app.league_more_info'
-              action="billiard_app.list_team"
               sequence="15"/>
-    <menuitem id="result_action" name="Matches"
-              parent='billiard_app.league_submenu_root'
-              action="billiard_app.match_result"
+    <menuitem id="team_action" name="Team"
+              parent='billiard_app.league_action'
+              action="billiard_app.list_team"
               sequence="20"/>
+     <menuitem id="stand_action" name="Standing"
+              parent='billiard_app.league_action'
+              action="billiard_app.standing_action"
+              sequence="20"/>
+    <menuitem id="result_action" name="Matches"
+              parent='billiard_app.league_action'
+              action="billiard_app.match_result"
+              sequence="10"/>
     <menuitem id="league_type_action" name="Law"
-              parent='billiard_app.league_more_info'
+              parent='billiard_app.league_submenu_root'
               action="billiard_app.league_type"
-              sequence="25"/>
+              sequence="8"/>
     <menuitem id="report_match_detail_menu" name="Report"
               parent='billiard_app.league_submenu_root'
               action="billiard_app.report_match_detail"
-              sequence="30"/>
-    <menuitem id="fee_action" name="Fee"
-              parent='billiard_app.league_submenu_root'
-              action="billiard_app.list_fee"
               sequence="35"/>
+
+    <menuitem id="budget_menu" name="Budget"
+              parent='billiard_app.league_submenu_root'/>
+    <menuitem id="budget_action" name="Budget detail"
+              parent='billiard_app.budget_menu'
+              action="billiard_app.list_budget_action"
+              sequence="25"/>
+    <menuitem id="fee_action" name="Fee pays"
+              parent='billiard_app.budget_menu'
+              action="billiard_app.list_fee"
+              sequence="30"/>
+    <menuitem id="fund_action" name="Budget charge"
+              parent='billiard_app.budget_menu'
+              action="billiard_app.list_fund_action"
+              sequence="25"/>
 </odoo>

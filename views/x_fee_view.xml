@@ -8,19 +8,23 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                            <field name="status" widget="statusbar" statusbar_visible="draft,paid,cancelled"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,refunded"/>
+                        <button type="object" name="refund_button" string="Refund"
+                                attrs="{'invisible': [('state','=','refunded')]}"
+                                class="oe_highlight" groups="billiard_app.billiard_group_admin"/>
                     </header>
                     <sheet>
                         <group>
                             <group>
-                                <field name="name"/>
-                                <field name="play_day"/>
-                                <field name="location"/>
+                                <field name="name" attrs="{'readonly': [('state','=', 'refunded')]}"/>
+                                <field name="play_day" attrs="{'readonly': [('state','=', 'refunded')]}"/>
+                                <field name="location" attrs="{'readonly': [('state','=', 'refunded')]}"/>
                             </group>
                             <group>
-                                <field name="fee_total"/>
-                                <field name="payer"/>
-                                <field name="league_id"/>
+                                <field name="fee_total" attrs="{'readonly': [('state','=', 'refunded')]}"/>
+                                <field name="payer" attrs="{'readonly': [('state','=', 'refunded')]}"/>
+                                <field name="league_id" attrs="{'readonly': [('state','=', 'refunded')]}"/>
+                                <field name="budget_id" attrs="{'readonly': [('state','=', 'refunded')]}"/>
                             </group>
                         </group>
                         <label for="note"/>
@@ -39,13 +43,15 @@
             <field name="name">x.fee.tree</field>
             <field name="model">x.fee</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree decoration-muted="state == 'draft' " decoration-success="state == 'refunded'">
                     <field name="name"/>
                     <field name="play_day"/>
                     <field name="fee_total"/>
                     <field name="payer"/>
                     <field name="location"/>
                     <field name="league_id"/>
+                    <field name="budget_id"/>
+                    <field name="state"/>
                 </tree>
             </field>
         </record>
@@ -74,15 +80,15 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <record id="unique_sequence_id" model="ir.sequence">
-            <field name="name">League_fee</field>
-            <field name="code">x.fee</field>
-            <field name="active">TRUE</field>
-            <field name="prefix">FE</field>
-            <field name="padding">5</field>
-            <field name="number_next">1</field>
-            <field name="number_increment">1</field>
-        </record>
+<!--        <record id="unique_sequence_id" model="ir.sequence">-->
+<!--            <field name="name">League_fee</field>-->
+<!--            <field name="code">x.fee</field>-->
+<!--            <field name="active">TRUE</field>-->
+<!--            <field name="prefix">FE</field>-->
+<!--            <field name="padding">5</field>-->
+<!--            <field name="number_next">1</field>-->
+<!--            <field name="number_increment">1</field>-->
+<!--        </record>-->
 
     </data>
 </odoo>

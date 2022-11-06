@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+        <record id="module_billiard" model="ir.module.category">
+            <field name="name">Billiard Club</field>
+        </record>
+        <record id="billiard_group_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="billiard_app.module_billiard"/>
+        </record>
+        <record id="billiard_group_admin" model="res.groups">
+            <field name="name">Administrator</field>
+            <field name="category_id" ref="billiard_app.module_billiard"/>
+        </record>
+    </data>
+</odoo>

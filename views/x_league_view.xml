@@ -8,7 +8,15 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <field name="status" widget="statusbar" statusbar_visible="progress,completed"/>
+                        <button type="object" name="start_league_button" string="Start league"
+                                attrs="{'invisible': [('status','in',('progress', 'completed', 'cancelled'))]}"
+                                class="oe_highlight"/>
+                        <button type="object" name="end_league_button" string="End league"
+                                attrs="{'invisible': [('status','in',('draft', 'completed', 'cancelled'))]}"
+                                class="oe_highlight"/>
+                        <button type="object" name="cancel_league_button" string="Cancel league"
+                                attrs="{'invisible': [('status','in',('draft', 'completed', 'cancelled'))]}" class="oe_highlight"/>
+                        <field name="status" widget="statusbar" statusbar_visible="draft,progress,completed,cancelled"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
@@ -22,9 +30,12 @@
                         </div>
                         <group>
                             <group>
-                                <field name="name"/>
-                                <field name="law_id"/>
-                                <field name="type"/>
+                                <field name="name" attrs="{'readonly': [('status','in',('progress', 'completed', 'cancelled'))]}"/>
+                                <field name="law_id" attrs="{'readonly': [('status','in',('progress', 'completed', 'cancelled'))]}"/>
+                                <field name="type" attrs="{'readonly': [('status','in',('progress', 'completed', 'cancelled'))]}"/>
+                                <field name="total_player" attrs="{'invisible': [('type','=','dual')]}"/>
+                                <field name="total_team" attrs="{'invisible': [('type','=','solo')]}"/>
+                                <field name="total_matches" attrs="{'readonly': [('status','in',('progress', 'completed', 'cancelled'))]}"/>
                                 <!--                            <field name="match_ids">-->
                                 <!--                                <tree editable="bottom">-->
                                 <!--                                    <field name="formula"/>-->
@@ -37,19 +48,22 @@
                                 <!--                            </field>-->
                             </group>
                             <group>
-                                <field name="start_date"/>
-                                <field name="stop_date"/>
+                                <field name="start_date" attrs="{'readonly': [('status','in',('progress', 'completed', 'cancelled'))]}"/>
+                                <field name="stop_date" attrs="{'readonly': [('status','in',('progress', 'completed', 'cancelled'))]}"/>
+                                <field name="location" attrs="{'readonly': [('status','in',('progress', 'completed', 'cancelled'))]}"/>
+<!--                                <field name="champion"-->
+<!--                                       attrs="{'invisible': [('status','in',('draft','progress','cancelled'))]}"/>-->
                             </group>
                         </group>
                         <notebook>
                             <page string="Player">
-                                <field name="player_ids"/>
+                                <field name="player_ids" widget="many2many_tags"/>
                             </page>
                             <page string="Team">
-                                <field name="team_ids"/>
+                                <field name="team_ids" widget="many2many_tags"/>
                             </page>
                         </notebook>
-                         <label for="note"/>
+                        <label for="note"/>
                         <field name="note"/>
                     </sheet>
                     <div class="oe_chatter">
@@ -65,13 +79,15 @@
             <field name="name">x.league.tree</field>
             <field name="model">x.league</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree decoration-muted="status == 'draft' " decoration-success="status == 'completed'"
+                      decoration-danger="status == 'cancelled'">
                     <field name="name"/>
                     <field name="law_id"/>
                     <field name="type"/>
                     <field name="start_date"/>
                     <field name="stop_date"/>
                     <field name="status"/>
+<!--                    <field name="champion" attrs="{'invisible': [('status','in',('draft','progress'))]}"/>-->
                 </tree>
             </field>
         </record>
@@ -93,10 +109,15 @@
 
 
         <record id="league_des" model="ir.actions.act_window">
-            <field name="name">League</field>
+            <field name="name">Billiard</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">x.league</field>
             <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Welcome to the Billiard Club!
+                </p>
+            </field>
         </record>
 
     </data>
