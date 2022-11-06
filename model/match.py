@@ -8,7 +8,6 @@ class Match(models.Model):
 
     name = fields.Char(string=_('Name'), compute='compute_name', store=True)
     type_league = fields.Selection(related='league_id.type', store=True)
-    playing_type = fields.Many2one('x.league')
     player1_id = fields.Many2one('x.player', string=_('Player 1'), tracking=True)
     player2_id = fields.Many2one('x.player', string=_('Player 2'), tracking=True)
     line_ids = fields.One2many('x.match.detail', 'x_match_id')
@@ -16,7 +15,6 @@ class Match(models.Model):
     team_id2 = fields.Many2one('x.team', string=_('Team 2'), tracking=True)
     league_id = fields.Many2one('x.league', string=_('League'), tracking=True, required=True)
     start_time = fields.Date(string=_('Time '), tracking=True)
-    winner = fields.Char(string=_('Winner'), compute='compute_winner')
     location = fields.Selection([('nvh', 'Sonic Club'), ('cf', 'Đây coffee')], tracking=True)
     status = fields.Selection([('draft', 'Draft'), ('progress', 'In progress'), ('completed', 'Completed')],
                               default='draft')
@@ -33,7 +31,7 @@ class Match(models.Model):
 
     def create_line_ids(self):
         if self.type_league == 'dual':
-            vals = [(5, 0, 0), (0, 0, {'team_id': self.team_id1.id}), (0, 0, {'team_id': self.team_id2.id})]
+            vals = [(5, 0, 0), (0, 0, {'player_id': self.team_id1.id}), (0, 0, {'player_id': self.team_id2.id})]
         else:
             vals = [(5, 0, 0), (0, 0, {'player_id': self.player1_id.id}), (0, 0, {'player_id': self.player2_id.id})]
         return vals
@@ -54,17 +52,6 @@ class Match(models.Model):
                     'line_ids': rec.create_line_ids()
                 })
         return res
-
-    def compute_winner(self):
-        for record in self:
-            matches = self.env['x.match.detail'].search([('x_match_id', '=', record.id), ('is_win', '=', True)])
-            record.winner = ''
-            for match in matches:
-                if match.player_id or match.team_id:
-                    if match.player_id:
-                        record.winner = match.player_id.name
-                    if match.team_id:
-                        record.winner = match.team_id.name
 
     @api.constrains('player1_id', 'player2_id')
     def check_duplicate_player(self):

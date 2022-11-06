@@ -10,6 +10,7 @@
                     <sheet>
                         <group>
                             <field name="name"/>
+                            <field name="league_id"/>
                         </group>
                         <notebook>
                             <page string="Players">
@@ -29,17 +30,28 @@
                 <tree>
                     <field name="name"/>
                     <field name="player_ids" widget="many2many_tags"/>
+                    <field name="league_id"/>
                 </tree>
             </field>
         </record>
 
 
-       <record id="list_team" model="ir.actions.act_window">
+        <record id="list_team" model="ir.actions.act_window">
             <field name="name">Team</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">x.team</field>
             <field name="view_mode">tree,form</field>
-       </record>
+        </record>
+
+        <record id="team_sequence_id" model="ir.sequence">
+            <field name="name">Team</field>
+            <field name="code">x.team</field>
+            <field name="active">TRUE</field>
+            <field name="prefix">Team</field>
+            <field name="padding">2</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
 
     </data>
 </odoo>

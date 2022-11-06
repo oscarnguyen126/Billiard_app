@@ -15,10 +15,6 @@
               parent='billiard_app.league_action'
               action="billiard_app.list_team"
               sequence="20"/>
-     <menuitem id="stand_action" name="Standing"
-              parent='billiard_app.league_action'
-              action="billiard_app.standing_action"
-              sequence="20"/>
     <menuitem id="result_action" name="Matches"
               parent='billiard_app.league_action'
               action="billiard_app.match_result"
@@ -26,12 +22,11 @@
     <menuitem id="league_type_action" name="Law"
               parent='billiard_app.league_submenu_root'
               action="billiard_app.league_type"
-              sequence="8"/>
+              sequence="25"/>
     <menuitem id="report_match_detail_menu" name="Report"
               parent='billiard_app.league_submenu_root'
               action="billiard_app.report_match_detail"
               sequence="35"/>
-
     <menuitem id="budget_menu" name="Budget"
               parent='billiard_app.league_submenu_root'/>
     <menuitem id="budget_action" name="Budget detail"

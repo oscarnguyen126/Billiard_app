@@ -17,5 +17,6 @@ access_x_fund_billiard_group_admin,access_x_fund,model_x_fund,billiard_group_adm
 access_x_fund,access_x_fund,model_x_fund,billiard_group_user,1,0,0,0
 access_x_budget_billiard_group_admin,access_x_budget,model_x_budget,billiard_group_admin,1,1,1,1
 access_x_budget,access_x_budget,model_x_budget,billiard_group_user,1,0,0,0
-access_x_standing,access_x_standing,model_x_standing,base.group_user,1,1,1,1
+access_x_participants_billiard_group_admin,access_x_participants,model_x_participants,billiard_group_admin,1,1,1,1
+access_x_participants_billiard_group_user,access_x_participants,model_x_participants,billiard_group_user,1,0,0,0
 
