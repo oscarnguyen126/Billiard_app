@@ -17,7 +17,7 @@
              'views/x_player_menu.xml',
              'views/x_fund.xml',
              'views/x_budget.xml',
-             'views/x_standing.xml',
+             'views/x_participants.xml',
              ],
     'license': 'GPL-3',
 }

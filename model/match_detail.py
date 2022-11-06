@@ -11,7 +11,7 @@ class MatchDetail(models.Model):
     x_match_id = fields.Many2one('x.match', string=_('Match'))
     league_id = fields.Many2one(related='x_match_id.league_id', store=True)
     score_win = fields.Integer('Win', compute='compute_score_win', store=True)
-    standing_id = fields.Many2one('x.standing')
+    participant_id = fields.Many2one('x.participants')
 
     @api.depends('is_win')
     def compute_score_win(self):
