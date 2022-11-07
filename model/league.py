@@ -95,7 +95,10 @@ class League(models.Model):
     @api.depends('player_ids')
     def compute_player(self):
         for record in self:
-            record.total_player = len(record.player_ids)
+            if record.type == 'solo':
+                record.total_player = len(record.player_ids)
+            else:
+                record.total_player = len(record.team_ids)
 
     def cancel_league_button(self):
         self.state = 'cancelled'
