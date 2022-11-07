@@ -9,20 +9,22 @@
                 <form>
                     <header>
                         <button type="object" name="start_league_button" string="Start league"
-                                attrs="{'invisible': [('status','in',('progress', 'completed', 'cancelled'))]}"
+                                attrs="{'invisible': [('state','in',('progress', 'completed', 'cancelled'))]}"
                                 class="oe_highlight"/>
                         <button type="object" name="end_league_button" string="End league"
-                                attrs="{'invisible': [('status','in',('draft', 'completed', 'cancelled'))]}"
+                                attrs="{'invisible': [('state','in',('draft', 'completed', 'cancelled'))]}"
                                 class="oe_highlight"/>
                         <button type="object" name="cancel_league_button" string="Cancel league"
-                                attrs="{'invisible': [('status','in',('draft', 'completed', 'cancelled'))]}"
+                                attrs="{'invisible': [('state','in',('draft', 'completed', 'cancelled'))]}"
                                 class="oe_highlight"/>
-                        <field name="status" widget="statusbar" statusbar_visible="draft,progress,completed,cancelled"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,progress,completed,cancelled"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
                             <button type="object" name="action_show_matches" string="Matches"
                                     class="oe_stat_button" icon="fa-calendar">
+                                <field name="total_match"/>
+
                             </button>
                             <button type="object" name="action_open_fee" string="Fee"
                                     class="oe_stat_button" icon="fa-calendar">
@@ -32,29 +34,46 @@
                         <group>
                             <group>
                                 <field name="name"
-                                       attrs="{'readonly': [('status','in',('progress', 'completed', 'cancelled'))]}"/>
+                                       attrs="{'readonly': [('state','in',('progress', 'completed', 'cancelled'))]}"/>
                                 <field name="law_id"
-                                       attrs="{'readonly': [('status','in',('progress', 'completed', 'cancelled'))]}"/>
+                                       attrs="{'readonly': [('state','in',('progress', 'completed', 'cancelled'))]}"/>
                                 <field name="type"
-                                       attrs="{'readonly': [('status','in',('progress', 'completed', 'cancelled'))]}"/>
+                                       attrs="{'readonly': [('state','in',('progress', 'completed', 'cancelled'))]}"/>
                                 <field name="total_player"/>
                             </group>
                             <group>
                                 <field name="start_date"
-                                       attrs="{'readonly': [('status','in',('progress', 'completed', 'cancelled'))]}"/>
+                                       attrs="{'readonly': [('state','in',('progress', 'completed', 'cancelled'))]}"/>
                                 <field name="stop_date"
-                                       attrs="{'readonly': [('status','in',('progress', 'completed', 'cancelled'))]}"/>
+                                       attrs="{'readonly': [('state','in',('progress', 'completed', 'cancelled'))]}"/>
                                 <field name="location"
-                                       attrs="{'readonly': [('status','in',('progress', 'completed', 'cancelled'))]}"/>
-                                <field name="player_ids" widget="many2many_tags"/>
-                                <field name="team_ids" widget="many2many_tags" attrs="{'invisible': [('type', '=', 'solo')]}"/>
+                                       attrs="{'readonly': [('state','in',('progress', 'completed', 'cancelled'))]}"/>
+                                <field name="player_ids" widget="many2many_tags"
+                                       options="{'no_create': True, 'no_open': True}"
+                                       attrs="{'required': [('type', '=', 'solo')], 'invisible': [('type', '=', 'dual')]}"/>
+                                <field name="note"/>
                             </group>
                         </group>
-                        <label for="note"/>
-                        <field name="note"/>
                         <notebook>
                             <page string="Standing">
-                                <field name="participant_ids"/>
+                                <field name="participant_ids">
+                                    <tree editable="bottom">
+                                        <field name="player_id" readonly="1"/>
+                                        <field name="team_id" readonly="1"/>
+                                        <field name="match_ids" readonly="1"/>
+                                        <field name="ball_total" readonly="1"/>
+                                        <field name="win_total" readonly="1"/>
+                                        <field name="total_point"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Team" attrs="{'invisible': [('type', '=', 'solo')]}">
+                                <field name="team_ids">
+                                    <tree editable="bottom">
+                                        <field name="player_ids" widget="many2many_tags"/>
+                                        <field name="name"/>
+                                    </tree>
+                                </field>
                             </page>
                         </notebook>
                     </sheet>
@@ -71,15 +90,15 @@
             <field name="name">x.league.tree</field>
             <field name="model">x.league</field>
             <field name="arch" type="xml">
-                <tree decoration-muted="status == 'draft' " decoration-success="status == 'completed'"
-                      decoration-danger="status == 'cancelled'">
+                <tree decoration-muted="state == 'draft' " decoration-success="state == 'completed'"
+                      decoration-danger="state == 'cancelled'">
                     <field name="name"/>
                     <field name="law_id"/>
                     <field name="type"/>
                     <field name="start_date"/>
                     <field name="stop_date"/>
-                    <field name="status"/>
-                    <!--                    <field name="champion" attrs="{'invisible': [('status','in',('draft','progress'))]}"/>-->
+                    <field name="state"/>
+                    <!--                    <field name="champion" attrs="{'invisible': [('state','in',('draft','progress'))]}"/>-->
                 </tree>
             </field>
         </record>

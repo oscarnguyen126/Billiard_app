@@ -10,7 +10,6 @@ class Budget(models.Model):
     fee = fields.Float(string=_('Expenses (VND)'), compute='compute_fee')
     player_id = fields.Many2one('x.player', string=_('Holder'), required=True)
     remain = fields.Float(string=_('Remain (VND)'), compute='compute_remain', store=True)
-    status = fields.Selection([('bad', 'Bad'), ('good', 'Good'), ('wealthy', 'Wealthy')], default='good')
     fund_ids = fields.One2many('x.fund', 'budget_id', string=_('Income'))
     fee_ids = fields.One2many('x.fee', 'budget_id', string=_('Outcome'))
 

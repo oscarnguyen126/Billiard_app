@@ -7,37 +7,29 @@
             <field name="model">x.match</field>
             <field name="arch" type="xml">
                 <form>
+                    <header>
+                        <button string="Confirm"
+                                name="done_button"
+                                type="object"
+                                attrs="{'invisible': [('state', '=', 'done')]}"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
                     <sheet>
                         <group>
                             <group>
-                                <field name="league_id"/>
-                                <field name="type_league"/>
+                                <field name="league_id" attrs="{'readonly': [('state', '=', 'done')]}"/>
+                                <field name="type_league" attrs="{'readonly': [('state', '=', 'done')]}"/>
                             </group>
                             <group>
-                                <field name="start_time"/>
-                            </group>
-                        </group>
-                        <group>
-                            <group>
-                                <field name="player1_id"
-                                       attrs="{'invisible': [('type_league', '=', 'dual')], 'required': [('type_league', '=', 'solo')]}"/>
-                                <field name="team_id1"
-                                       attrs="{'invisible': [('type_league', '=', 'solo')], 'required': [('type_league', '=', 'dual')]}"/>
-                            </group>
-                            <group>
-                                <field name="player2_id" options="{'no_create': True, 'no_create_edit': True}"
-                                       attrs="{'invisible': [('type_league', '=', 'dual')], 'required': [('type_league', '=', 'solo')]}"/>
-                                <field name="team_id2"
-                                       attrs="{'invisible': [('type_league', '=', 'solo')], 'required': [('type_league', '=', 'dual')]}"/>
+                                <field name="start_time" attrs="{'readonly': [('state', '=', 'done')]}"/>
                             </group>
                         </group>
                         <notebook>
                             <page string="Result">
-                                <field name="line_ids">
-                                    <tree editable="bottom" create="0" edit="1" delete="0">
-                                        <field name="player_id" readonly="1"/>
-                                        <field name="participant_id" widget="Many2many_tags"/>
-                                        <field name="team_id" readonly="1"/>
+                                <field name="line_ids" attrs="{'readonly': [('state', '=', 'done')]}">
+                                    <tree editable="bottom">
+                                        <field name="player_id"/>
+                                        <field name="team_id"/>
                                         <field name="ball"/>
                                         <field name="is_win"/>
                                     </tree>
