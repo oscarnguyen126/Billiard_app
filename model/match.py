@@ -22,20 +22,18 @@ class Match(models.Model):
     @api.model
     def create(self, vals_list):
         res = super(Match, self).create(vals_list)
-        if self.type_league == 'solo':
-            for record in res:
+        for record in res:
+            if record.league_id.type == 'solo':
                 player = record.line_ids.mapped('player_id')
                 res.write({
                     'name': ' - '.join([x.name for x in player])
                 })
-        else:
-            for record in res:
+            else:
                 team = record.line_ids.mapped('team_id')
                 res.write({
                     'name': ' - '.join([x.name for x in team])
                 })
-
-            line = self.line_ids.filtered(lambda r: r.is_win == True)
+            line = self.line_ids.filtered(lambda r: r.is_win)
             if len(line) > 1:
                 raise ValidationError('There are 2 winner')
             return res
@@ -43,16 +41,18 @@ class Match(models.Model):
     def write(self, vals):
         res = super(Match, self).write(vals)
         if vals.get('line_ids'):
-            player = self.line_ids.mapped('player_id')
-            self.write({
-                'name': ' - '.join([x.name for x in player])
-            })
-            team = self.line_ids.mapped('team_id')
-            self.write({
-                'name': ' - '.join([x.name for x in team])
-            })
+            if self.league_id.type == 'solo':
+                player = self.line_ids.mapped('player_id')
+                self.write({
+                    'name': ' - '.join([x.name for x in player])
+                })
+            else:
+                team = self.line_ids.mapped('team_id')
+                self.write({
+                    'name': ' - '.join([x.name for x in team])
+                })
 
-        line = self.line_ids.filtered(lambda r: r.is_win == True)
+        line = self.line_ids.filtered(lambda r: r.is_win is True)
         if len(line) > 1:
             raise ValidationError('There are 2 winner')
         return res

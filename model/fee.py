@@ -1,6 +1,5 @@
 from odoo import models, fields, _, api
-import pytz
-
+from odoo.exceptions import ValidationError
 
 class Fee(models.Model):
     _name = 'x.fee'
@@ -25,6 +24,9 @@ class Fee(models.Model):
 
     def refund_button(self):
         for record in self:
-            record.state = 'refunded'
-            record.budget_id.compute_fee()
+            if record.budget_id.amount < record.fee_total:
+                raise ValidationError('The fee is greater than the budget')
+            else:
+                record.state = 'refunded'
+                record.budget_id.compute_fee()
 
