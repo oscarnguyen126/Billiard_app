@@ -1,4 +1,5 @@
 from odoo import models, fields,_, api
+from odoo.exceptions import ValidationError
 
 
 class MatchDetail(models.Model):
@@ -10,10 +11,48 @@ class MatchDetail(models.Model):
     is_win = fields.Boolean(string=_('The winner'))
     x_match_id = fields.Many2one('x.match', string=_('Match'))
     league_id = fields.Many2one(related='x_match_id.league_id', store=True)
-    score_win = fields.Integer('Win', compute='compute_score_win', store=True)
     participant_id = fields.Many2one('x.participants')
 
-    @api.depends('is_win')
-    def compute_score_win(self):
-        for rec in self:
-            rec.score_win = 1 if rec.is_win else 0
+    @api.model
+    def create(self, vals):
+        match = super(MatchDetail, self).create(vals)
+        if vals.get('ball') or vals.get('is_win'):
+            player_league = self.env['x.participants']
+            if vals.get('player_id'):
+                player_league = self.env['x.participants'].search([
+                    ('league_id', '=', self.league_id.id),
+                    ('player_id', '=', self.player_id.id)
+                ], limit=1)
+            if vals.get('team_id'):
+                player_league = self.env['x.participants'].search([
+                    ('league_id', '=', self.league_id.id),
+                    ('team_id', '=', self.team_id.id)
+                ], limit=1)
+
+            if player_league:
+                player_league.ball_total += self.ball
+                if self.is_win:
+                    player_league.win_total += 1
+        return match
+
+    def write(self, vals):
+        match = super(MatchDetail, self).write(vals)
+        if vals.get('ball') or vals.get('is_win'):
+            player_league = self.env['x.participants']
+            if self.player_id:
+                player_league = self.env['x.participants'].search([
+                    ('league_id', '=', self.league_id.id),
+                    ('player_id', '=', self.player_id.id)
+                ], limit=1)
+
+            if self.team_id:
+                player_league = self.env['x.participants'].search([
+                    ('league_id', '=', self.league_id.id),
+                    ('team_id', '=', self.team_id.id)
+                ], limit=1)
+
+            if player_league:
+                player_league.ball_total += self.ball
+                if self.is_win:
+                    player_league.win_total += 1
+        return match

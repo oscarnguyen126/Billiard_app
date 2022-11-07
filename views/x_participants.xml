@@ -10,13 +10,11 @@
                     <sheet>
                         <group>
                             <group>
-                                <field name="player_id"/>
+                                <field name="player_id"
+                                       options="{'no_create': True, 'no_open': True}"/>
                                 <field name="team_id"/>
-                                <field name="match_ids"/>
-                                <field name="ball_total"/>
-                                <field name="win_total"/>
-                                <field name="total_point"/>
                                 <field name="league_id"/>
+                                <field name="total_point"/>
                             </group>
                         </group>
                     </sheet>
@@ -36,7 +34,6 @@
                     <field name="ball_total"/>
                     <field name="win_total"/>
                     <field name="total_point"/>
-                    <field name="league_id"/>
                 </tree>
             </field>
         </record>

@@ -16,41 +16,45 @@ class Match(models.Model):
     league_id = fields.Many2one('x.league', string=_('League'), tracking=True, required=True)
     start_time = fields.Date(string=_('Time '), tracking=True)
     location = fields.Selection([('nvh', 'Sonic Club'), ('cf', 'Đây coffee')], tracking=True)
-    status = fields.Selection([('draft', 'Draft'), ('progress', 'In progress'), ('completed', 'Completed')],
-                              default='draft')
-
-    @api.depends('player1_id', 'player2_id')
-    def compute_name(self):
-        for record in self:
-            record.name = ''
-            if record.player1_id and record.player2_id:
-                record.name = record.player1_id.name + ' - ' + record.player2_id.name
-            else:
-                if record.team_id1 and record.team_id2:
-                    record.name = record.team_id1.name + ' - ' + record.team_id2.name
-
-    def create_line_ids(self):
-        if self.type_league == 'dual':
-            vals = [(5, 0, 0), (0, 0, {'player_id': self.team_id1.id}), (0, 0, {'player_id': self.team_id2.id})]
-        else:
-            vals = [(5, 0, 0), (0, 0, {'player_id': self.player1_id.id}), (0, 0, {'player_id': self.player2_id.id})]
-        return vals
+    state = fields.Selection([('draft', 'Draft'), ('done', 'Done')],
+                             default='draft')
 
     @api.model
     def create(self, vals_list):
         res = super(Match, self).create(vals_list)
-        res.write({
-            'line_ids': res.create_line_ids()
-        })
-        return res
+        if self.type_league == 'solo':
+            for record in res:
+                player = record.line_ids.mapped('player_id')
+                res.write({
+                    'name': ' - '.join([x.name for x in player])
+                })
+        else:
+            for record in res:
+                team = record.line_ids.mapped('team_id')
+                res.write({
+                    'name': ' - '.join([x.name for x in team])
+                })
+
+            line = self.line_ids.filtered(lambda r: r.is_win == True)
+            if len(line) > 1:
+                raise ValidationError('There are 2 winner')
+            return res
 
     def write(self, vals):
-        res = super().write(vals)
-        if any(field in vals for field in ['type_league', 'team_id1', 'team_id2', 'player1_id', 'player2_id']):
-            for rec in self:
-                rec.write({
-                    'line_ids': rec.create_line_ids()
-                })
+        res = super(Match, self).write(vals)
+        if vals.get('line_ids'):
+            player = self.line_ids.mapped('player_id')
+            self.write({
+                'name': ' - '.join([x.name for x in player])
+            })
+            team = self.line_ids.mapped('team_id')
+            self.write({
+                'name': ' - '.join([x.name for x in team])
+            })
+
+        line = self.line_ids.filtered(lambda r: r.is_win == True)
+        if len(line) > 1:
+            raise ValidationError('There are 2 winner')
         return res
 
     @api.constrains('player1_id', 'player2_id')
@@ -65,7 +69,6 @@ class Match(models.Model):
             if record.team_id1 == record.team_id2 and record.team_id1 and record.team_id2:
                 raise ValidationError('Two opponents are the same')
 
-    def check_status(self):
+    def done_button(self):
         for record in self:
-            if record.line_ids.is_win == True:
-                record.status = 'completed'
+            record.state = 'done'
