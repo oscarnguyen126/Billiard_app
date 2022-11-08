@@ -12,21 +12,25 @@
                                 name="done_button"
                                 type="object"
                                 attrs="{'invisible': [('state', '=', 'done')]}"/>
+                          <button string="Cancel"
+                                name="cancel_button"
+                                type="object"
+                                attrs="{'invisible': [('state', '=', 'cancel')]}"/>
                         <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>
                         <group>
                             <group>
-                                <field name="league_id" attrs="{'readonly': [('state', '=', 'done')]}"/>
-                                <field name="type_league" attrs="{'readonly': [('state', '=', 'done')]}"/>
+                                <field name="league_id" attrs="{'readonly': [('state','in',('done','cancel'))]}"/>
+                                <field name="type_league" readonly="1"/>
                             </group>
                             <group>
-                                <field name="start_time" attrs="{'readonly': [('state', '=', 'done')]}"/>
+                                <field name="start_time" attrs="{'readonly': [('state','in',('done','cancel'))]}"/>
                             </group>
                         </group>
                         <notebook>
                             <page string="Result">
-                                <field name="line_ids" attrs="{'readonly': [('state', '=', 'done')]}">
+                                <field name="line_ids" attrs="{'readonly': [('state','in',('done','cancel'))]}">
                                     <tree editable="bottom">
                                         <field name="player_id"/>
                                         <field name="team_id"/>
@@ -50,9 +54,11 @@
             <field name="name">x.match.tree</field>
             <field name="model">x.match</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree decoration-success="state == 'done'" decoration-danger="state == 'cancel'">
                     <field name="name"/>
+                    <field name="start_time"/>
                     <field name="type_league"/>
+                    <field name="state"/>
                 </tree>
             </field>
         </record>

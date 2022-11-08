@@ -7,9 +7,10 @@ class Fund(models.Model):
 
     name = fields.Char(string=_('Fund No'), readonly=True, required=True, copy=False, default='New')
     amount = fields.Float(string=_('Amount'), required=True, tracking=True)
-    player_id = fields.Many2one('x.player', string=_('Player'), required=True, tracking=True)
+    player_id = fields.Many2one('res.users', index=True, string=_("Player"),
+                            default=lambda self: self.env.user, required=True)
     charge_date = fields.Date(string=_('Charge date'), required=True, tracking=True)
-    state = fields.Selection([('draft', 'Draft'), ('done', 'Done')], default='draft')
+    state = fields.Selection([('draft', 'Draft'), ('done', 'Done')], string=_('State'), default='draft')
     budget_id = fields.Many2one('x.budget', required=True)
 
     @api.model

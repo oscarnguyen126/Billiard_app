@@ -30,7 +30,7 @@
                 <tree>
                     <field name="player_id"/>
                     <field name="team_id"/>
-                    <field name="match_ids"/>
+<!--                    <field name="match_ids"/>-->
                     <field name="ball_total"/>
                     <field name="win_total"/>
                     <field name="total_point"/>
@@ -50,7 +50,6 @@
                     <field name="win_total"/>
                     <field name="total_point"/>
                     <field name="league_id"/>
-                    <field name="match_ids"/>
                 </search>
             </field>
         </record>

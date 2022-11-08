@@ -44,14 +44,10 @@
                             <group>
                                 <field name="start_date"
                                        attrs="{'readonly': [('state','in',('progress', 'completed', 'cancelled'))]}"/>
-                                <field name="stop_date"
-                                       attrs="{'readonly': [('state','in',('progress', 'completed', 'cancelled'))]}"/>
+<!--                                <field name="stop_date"-->
+<!--                                       attrs="{'readonly': [('state','in',('progress', 'completed', 'cancelled'))]}"/>-->
                                 <field name="location"
                                        attrs="{'readonly': [('state','in',('progress', 'completed', 'cancelled'))]}"/>
-                                <field name="player_ids" widget="many2many_tags"
-                                       options="{'no_create': True, 'no_open': True}"
-                                       attrs="{'required': [('type', '=', 'solo')], 'invisible': [('type', '=', 'dual')]}"/>
-                                <field name="note"/>
                             </group>
                         </group>
                         <notebook>
@@ -64,16 +60,20 @@
                                         <field name="ball_total" readonly="1"/>
                                         <field name="win_total" readonly="1"/>
                                         <field name="total_point"/>
+                                        <field name="win_rate" widget="percentage"/>
                                     </tree>
                                 </field>
                             </page>
-                            <page string="Team" attrs="{'invisible': [('type', '=', 'solo')]}">
+                            <page string="Đội" attrs="{'invisible': [('type', '=', 'solo')]}">
                                 <field name="team_ids">
                                     <tree editable="bottom">
                                         <field name="player_ids" widget="many2many_tags"/>
                                         <field name="name"/>
                                     </tree>
                                 </field>
+                            </page>
+                            <page string="Cơ thủ" attrs="{'invisible': [('type', '=', 'dual')]}">
+                                <field name="player_ids" attrs="{'required': [('type', '=', 'solo')]}"/>
                             </page>
                         </notebook>
                     </sheet>
@@ -96,7 +96,7 @@
                     <field name="law_id"/>
                     <field name="type"/>
                     <field name="start_date"/>
-                    <field name="stop_date"/>
+<!--                    <field name="stop_date"/>-->
                     <field name="state"/>
                     <!--                    <field name="champion" attrs="{'invisible': [('state','in',('draft','progress'))]}"/>-->
                 </tree>
@@ -113,7 +113,7 @@
                     <field name="law_id"/>
                     <field name="type"/>
                     <field name="start_date"/>
-                    <field name="stop_date"/>
+<!--                    <field name="stop_date"/>-->
                 </search>
             </field>
         </record>

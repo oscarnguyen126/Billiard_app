@@ -5,9 +5,10 @@ from odoo.exceptions import ValidationError
 class Match(models.Model):
     _name = 'x.match'
     _inherit = ['mail.thread']
+    _order = 'state asc'
 
     name = fields.Char(string=_('Name'), compute='compute_name', store=True)
-    type_league = fields.Selection(related='league_id.type', store=True)
+    type_league = fields.Selection(string=_('Type'), related='league_id.type', store=True)
     player1_id = fields.Many2one('x.player', string=_('Player 1'), tracking=True)
     player2_id = fields.Many2one('x.player', string=_('Player 2'), tracking=True)
     line_ids = fields.One2many('x.match.detail', 'x_match_id')
@@ -16,7 +17,7 @@ class Match(models.Model):
     league_id = fields.Many2one('x.league', string=_('League'), tracking=True, required=True)
     start_time = fields.Date(string=_('Time '), tracking=True)
     location = fields.Selection([('nvh', 'Sonic Club'), ('cf', 'Đây coffee')], tracking=True)
-    state = fields.Selection([('draft', 'Draft'), ('done', 'Done')],
+    state = fields.Selection([('draft', 'Draft'), ('done', 'Done'), ('cancel', 'Cancelled')],
                              default='draft')
 
     @api.model
@@ -33,7 +34,7 @@ class Match(models.Model):
                 res.write({
                     'name': ' - '.join([x.name for x in team])
                 })
-            line = self.line_ids.filtered(lambda r: r.is_win)
+            line = self.line_ids.filtered(lambda r: r.is_win is True)
             if len(line) > 1:
                 raise ValidationError('There are 2 winner')
             return res
@@ -72,3 +73,7 @@ class Match(models.Model):
     def done_button(self):
         for record in self:
             record.state = 'done'
+
+    def cancel_button(self):
+        for record in self:
+            record.state = 'cancel'

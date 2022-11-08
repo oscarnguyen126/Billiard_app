@@ -1,6 +1,5 @@
 from odoo import fields, models, _, api
-from odoo.exceptions import MissingError, UserError, ValidationError, AccessError
-
+from odoo.exceptions import ValidationError
 
 
 class League(models.Model):
@@ -10,14 +9,14 @@ class League(models.Model):
 
     name = fields.Char(string=_('Name'), required=True)
     match_ids = fields.One2many('x.match', 'league_id')
-    law_id = fields.Many2one('x.league.type', required=True)
-    type = fields.Selection([('solo', 'Solo'), ('dual', 'Dual')], required=True, default='solo')
+    law_id = fields.Many2one('x.league.type', string=_('Law'), required=True)
+    type = fields.Selection([('solo', 'Solo'), ('dual', 'Dual')], string=_('Type'), required=True, default='solo')
     player_ids = fields.Many2many('x.player', 'x_player_x_league_rel', 'league_id', 'player_id', string=_('Players'))
     team_ids = fields.One2many('x.team', 'league_id', string=_('Teams'))
-    fee_ids = fields.One2many('x.fee', 'league_id', required=True)
+    fee_ids = fields.One2many('x.fee', 'league_id', string=_('Fee'), required=True)
     total_fee = fields.Float(string=_('Total fee'), compute='compute_fee')
     start_date = fields.Date(string=_('Start date'), required=True)
-    stop_date = fields.Date(string=_('End date'), required=True)
+    stop_date = fields.Date(string=_('End date'))
     state = fields.Selection(
         [('draft', 'Draft'), ('progress', 'In progress'), ('completed', 'Completed'), ('cancelled', 'Cancelled')],
         default='draft', copy=False)
@@ -29,13 +28,12 @@ class League(models.Model):
     total_match = fields.Integer(string=_('Total match'), compute='compute_match')
 
     def create_participant_ids(self):
-        if self.type == 'solo':
-            for record in self:
+        for record in self:
+            if record.type == 'solo':
                 vals = [(5, 0, 0)]
                 for player in record.player_ids:
                     vals.append((0, 0, {'player_id': player.id}))
-        else:
-            for record in self:
+            else:
                 vals = [(5, 0, 0)]
                 for team in record.team_ids:
                     vals.append((0, 0, {'team_id': team.id}))
@@ -122,7 +120,7 @@ class League(models.Model):
         for record in self:
             record.state = 'progress'
             if not record.participant_ids:
-                raise ValidationError(_('ghgjgj'))
+                raise ValidationError(_('No participant'))
             if record.type == 'solo':
                 record.create_match(player=record.player_ids, type='solo')
             else:
