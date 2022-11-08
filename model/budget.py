@@ -5,7 +5,7 @@ class Budget(models.Model):
     _name = 'x.budget'
     _inherit = ['mail.thread']
 
-    name = fields.Char(required=True, copy=False)
+    name = fields.Char(string=_('name'), required=True, copy=False)
     amount = fields.Float(string=_('Amount total (VND)'), compute='compute_amount', required=True, tracking=True)
     fee = fields.Float(string=_('Expenses (VND)'), compute='compute_fee')
     player_id = fields.Many2one('x.player', string=_('Holder'), required=True)

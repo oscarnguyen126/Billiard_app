@@ -1,17 +1,20 @@
 from odoo import models, fields, _, api
 from odoo.exceptions import ValidationError
 
+
 class Fee(models.Model):
     _name = 'x.fee'
     _inherit = ['mail.thread']
 
-    name = fields.Char(required=True, copy=False)
+    name = fields.Char(string=_('name'), required=True, copy=False)
     play_day = fields.Date(string=_('Date'), required=True, tracking=True)
-    location = fields.Char(required=True, tracking=True)
+    location = fields.Char(string=_('Location'), required=True, tracking=True)
     fee_total = fields.Float(string=_('Fee total (VND)'), required=True, tracking=True)
-    payer = fields.Many2one('x.player', string=_('Who pay?'), required=True, tracking=True)
+    payer = fields.Many2one('res.users', index=True, string=_("Who pays?"),
+                            default=lambda self: self.env.user, required=True)
     league_id = fields.Many2one('x.league', string=_('League'), tracking=True)
-    state = fields.Selection([('draft', 'Draft'), ('refunded', 'Refunded')], default='draft', tracking=True)
+    state = fields.Selection([('draft', 'Draft'), ('refunded', 'Refunded')], string=_('State'), default='draft',
+                             tracking=True)
     note = fields.Text(string=_('Note'))
     budget_id = fields.Many2one('x.budget', string=_('Refund by'), required=True)
 
@@ -29,4 +32,3 @@ class Fee(models.Model):
             else:
                 record.state = 'refunded'
                 record.budget_id.compute_fee()
-

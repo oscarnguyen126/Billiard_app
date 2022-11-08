@@ -22,9 +22,9 @@
                             </group>
                             <group>
                                 <field name="fee_total" attrs="{'readonly': [('state','=', 'refunded')]}"/>
-                                <field name="payer" attrs="{'readonly': [('state','=', 'refunded')]}"/>
-                                <field name="league_id" attrs="{'readonly': [('state','=', 'refunded')]}"/>
-                                <field name="budget_id" attrs="{'readonly': [('state','=', 'refunded')]}"/>
+                                <field name="payer" attrs="{'readonly': [('state','=', 'refunded')]}" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="league_id" attrs="{'readonly': [('state','=', 'refunded')]}" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="budget_id" attrs="{'readonly': [('state','=', 'refunded')]}" options="{'no_create': True, 'no_open': True}"/>
                             </group>
                         </group>
                         <label for="note"/>

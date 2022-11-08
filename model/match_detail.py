@@ -31,6 +31,7 @@ class MatchDetail(models.Model):
 
             if player_league:
                 player_league.ball_total += self.ball
+                player_league.match_ids += 1
                 if self.is_win:
                     player_league.win_total += 1
         return match
@@ -53,6 +54,7 @@ class MatchDetail(models.Model):
 
             if player_league:
                 player_league.ball_total += self.ball
+                player_league.match_ids += 1
                 if self.is_win:
                     player_league.win_total += 1
         return match

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <menuitem id="league_submenu_root" name="Billiard"/>
-    <menuitem id="league_action" name="League detail"
+    <menuitem id="league_action" name="League"
               parent="billiard_app.league_submenu_root"/>
-    <menuitem id="league_submenu" name="League"
+    <menuitem id="league_submenu" name="League detail"
               parent='billiard_app.league_action'
               action="billiard_app.league_des"
               sequence="5"/>
