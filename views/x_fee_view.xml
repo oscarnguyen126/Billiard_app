@@ -14,17 +14,65 @@
                                 class="oe_highlight" groups="billiard_app.billiard_group_admin"/>
                     </header>
                     <sheet>
+                             <div>
+                                <h1 class="oe_title">
+                                    <field name="name" attrs="{'readonly': [('state','=', 'refunded')]}" placeholder="Name"/>
+                                </h1>
+                            </div>
                         <group>
                             <group>
-                                <field name="name" attrs="{'readonly': [('state','=', 'refunded')]}"/>
+                                <field name="fee_total" attrs="{'readonly': [('state','=', 'refunded')]}"/>
                                 <field name="play_day" attrs="{'readonly': [('state','=', 'refunded')]}"/>
                                 <field name="location" attrs="{'readonly': [('state','=', 'refunded')]}"/>
+                                <field name="photo"/>
                             </group>
                             <group>
-                                <field name="fee_total" attrs="{'readonly': [('state','=', 'refunded')]}"/>
                                 <field name="payer" attrs="{'readonly': [('state','=', 'refunded')]}" options="{'no_create': True, 'no_open': True}"/>
                                 <field name="league_id" attrs="{'readonly': [('state','=', 'refunded')]}" options="{'no_create': True, 'no_open': True}"/>
                                 <field name="budget_id" attrs="{'readonly': [('state','=', 'refunded')]}" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="remain"/>
+                            </group>
+                        </group>
+                        <label for="note"/>
+                        <field name="note"/>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="fee_form_2" model="ir.ui.view">
+            <field name="name">x.fee.form</field>
+            <field name="model">x.fee</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,refunded"/>
+                        <button type="object" name="refund_button" string="Refund"
+                                attrs="{'invisible': [('state','=','refunded')]}"
+                                class="oe_highlight" groups="billiard_app.billiard_group_admin"/>
+                    </header>
+                    <sheet>
+                             <div>
+                                <h1 class="oe_title">
+                                    <field name="name" attrs="{'readonly': [('state','=', 'refunded')]}" placeholder="Name"/>
+                                </h1>
+                            </div>
+                        <group>
+                            <group>
+                                <field name="fee_total" attrs="{'readonly': [('state','=', 'refunded')]}"/>
+                                <field name="play_day" attrs="{'readonly': [('state','=', 'refunded')]}"/>
+                                <field name="location" attrs="{'readonly': [('state','=', 'refunded')]}"/>
+                                <field name="photo"/>
+                            </group>
+                            <group>
+                                <field name="payer" attrs="{'readonly': [('state','=', 'refunded')]}" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="league_id" attrs="{'readonly': [('state','=', 'refunded')]}" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="remain"/>
                             </group>
                         </group>
                         <label for="note"/>
@@ -43,13 +91,14 @@
             <field name="name">x.fee.tree</field>
             <field name="model">x.fee</field>
             <field name="arch" type="xml">
-                <tree decoration-muted="state == 'draft' " decoration-success="state == 'refunded'">
+                <tree decoration-muted="state == 'draft' " decoration-success="state == 'refunded'"
+                default_order="state asc, play_day desc">
                     <field name="name"/>
+                    <field name="payer"/>
                     <field name="play_day"/>
                     <field name="fee_total"/>
-                    <field name="payer"/>
-                    <field name="location"/>
-                    <field name="league_id"/>
+                    <field name="location" optional="hide"/>
+                    <field name="league_id" optional="hide"/>
                     <field name="budget_id"/>
                     <field name="state"/>
                 </tree>

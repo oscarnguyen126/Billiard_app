@@ -7,6 +7,10 @@
               parent='billiard_app.league_action'
               action="billiard_app.league_des"
               sequence="5"/>
+    <menuitem id="league_location" name="Location"
+              parent='billiard_app.league_submenu_root'
+              action="billiard_app.list_location_action"
+              sequence="35"/>
     <menuitem id="billiard_action" name="Player"
               parent='billiard_app.league_action'
               action="billiard_app.list_player"
@@ -15,10 +19,10 @@
               parent='billiard_app.league_action'
               action="billiard_app.list_team"
               sequence="20"/>
-<!--    <menuitem id="result_action" name="Matches"-->
-<!--              parent='billiard_app.league_action'-->
-<!--              action="billiard_app.match_result"-->
-<!--              sequence="10"/>-->
+    <menuitem id="result_action" name="Matches"
+              parent='billiard_app.league_action'
+              action="billiard_app.match_result"
+              sequence="10"/>
     <menuitem id="league_type_action" name="Law"
               parent='billiard_app.league_submenu_root'
               action="billiard_app.league_type"

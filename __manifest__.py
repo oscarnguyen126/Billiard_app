@@ -14,10 +14,12 @@
              'views/x_team_view.xml',
              'views/x_league_type_view.xml',
              'views/x_fee_view.xml',
-             'views/x_player_menu.xml',
+             'views/x_location.xml',
              'views/x_fund.xml',
              'views/x_budget.xml',
              'views/x_participants.xml',
+             'wizard/x_league_cancel_wizard_view.xml',
+             'views/x_player_menu.xml',
              ],
     'license': 'GPL-3',
 }

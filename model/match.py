@@ -1,5 +1,6 @@
 from odoo import models, fields, _, api
 from odoo.exceptions import ValidationError
+from datetime import datetime
 
 
 class Match(models.Model):
@@ -11,14 +12,26 @@ class Match(models.Model):
     type_league = fields.Selection(string=_('Type'), related='league_id.type', store=True)
     player1_id = fields.Many2one('x.player', string=_('Player 1'), tracking=True)
     player2_id = fields.Many2one('x.player', string=_('Player 2'), tracking=True)
-    line_ids = fields.One2many('x.match.detail', 'x_match_id')
+    line_ids = fields.One2many('x.match.detail', 'match_id')
     team_id1 = fields.Many2one('x.team', string=_('Team 1'), tracking=True)
     team_id2 = fields.Many2one('x.team', string=_('Team 2'), tracking=True)
     league_id = fields.Many2one('x.league', string=_('League'), tracking=True, required=True)
-    start_time = fields.Date(string=_('Time '), tracking=True)
+    start_time = fields.Date(default=datetime.now().strftime("%Y-%m-%d"))
     location = fields.Selection([('nvh', 'Sonic Club'), ('cf', 'Đây coffee')], tracking=True)
     state = fields.Selection([('draft', 'Draft'), ('done', 'Done'), ('cancel', 'Cancelled')],
                              default='draft')
+    winner = fields.Char(_('Winner'), compute='compute_winner')
+
+    def compute_winner(self):
+        for record in self:
+            matches = self.env['x.match.detail'].search([('match_id', '=', record.id), ('is_win', '=', True)])
+            record.winner = ''
+            for match in matches:
+                if match.player_id or match.team_id:
+                    if match.player_id:
+                        record.winner = match.player_id.name
+                    if match.team_id:
+                        record.winner = match.team_id.name
 
     @api.model
     def create(self, vals_list):
@@ -62,12 +75,6 @@ class Match(models.Model):
     def check_duplicate_player(self):
         for record in self:
             if record.player1_id and record.player2_id and record.player1_id == record.player2_id:
-                raise ValidationError('Two opponents are the same')
-
-    @api.constrains('team_id1', 'team_id2')
-    def check_duplicate_team(self):
-        for record in self:
-            if record.team_id1 == record.team_id2 and record.team_id1 and record.team_id2:
                 raise ValidationError('Two opponents are the same')
 
     def done_button(self):
