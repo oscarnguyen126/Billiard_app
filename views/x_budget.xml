@@ -7,24 +7,39 @@
             <field name="model">x.budget</field>
             <field name="arch" type="xml">
                 <form>
-<!--                    <header>-->
-<!--                        <field name="status" widget="statusbar" statusbar_visible="bad,good,wealthy"/>-->
-<!--                    </header>-->
+                    <header>
+                            <button type="object" name="input_income" string="Recharge"
+                                class="oe_highlight"/>
+                            <button type="object" name="input_outcome" string="Invoice"
+                                class="oe_highlight"/>
+                    </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
                             <button type="object" name="action_show_income" string="Income"
                                     class="oe_stat_button" icon="fa-calendar">
+                                <field name="member"/>
+
                             </button>
                             <button type="object" name="action_show_fee" string="Outcome"
                                     class="oe_stat_button" icon="fa-calendar">
+                                <field name="total_pay_time"/>
                             </button>
                         </div>
+                        <div>
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
                         <group>
-                            <field name="name"/>
-                            <field name="player_id"/>
+                        <group>
+                            <field name="player_id" required="1" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                            <field name="created_day"/>
+                        </group>
+                        <group>
                             <field name="amount"/>
                             <field name="fee"/>
                             <field name="remain"/>
+                        </group>
                         </group>
                     </sheet>
                     <div class="oe_chatter">
@@ -42,11 +57,11 @@
             <field name="arch" type="xml">
                 <tree>
                     <field name="name"/>
+                    <field name="created_day"/>
                     <field name="player_id"/>
                     <field name="amount"/>
                     <field name="fee"/>
                     <field name="remain"/>
-<!--                    <field name="status"/>-->
                 </tree>
             </field>
         </record>
@@ -71,6 +86,16 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">x.budget</field>
             <field name="view_mode">tree,form</field>
+        </record>
+
+          <record id="budget_sequence_id" model="ir.sequence">
+            <field name="name">Budget Name</field>
+            <field name="code">x.budget</field>
+            <field name="active">TRUE</field>
+            <field name="prefix">BG</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
         </record>
 
     </data>

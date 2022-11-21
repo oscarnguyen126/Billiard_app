@@ -1,6 +1,7 @@
 from odoo import models, fields, api, _
 from datetime import date
 from dateutil.relativedelta import relativedelta
+from odoo.exceptions import ValidationError
 
 
 class Player(models.Model):
@@ -11,9 +12,10 @@ class Player(models.Model):
     photo = fields.Binary(string=_('Photo'))
     bday = fields.Date(string=_("Birth day"), required=True, tracking=True)
     place_of_birth = fields.Char(string=_('Place of birth'), required=True, tracking=True)
-    age = fields.Integer(string=_('Age'), compute='_compute_age', required=True, tracking=True)
+    age = fields.Integer(string=_('Age'), compute='_compute_age', tracking=True, store=True)
     hand = fields.Selection([('right', 'Right'), ('left', 'Left')])
     phone = fields.Char(string=_('Mobile phone'), tracking=True)
+    nick_name = fields.Char(string=_('Nick name'))
 
     @api.depends('bday')
     def _compute_age(self):
@@ -34,3 +36,9 @@ class Player(models.Model):
         ]
         action['context'] = {}
         return action
+
+    @api.constrains('age')
+    def check_age(self):
+        for record in self:
+            if record.age < 13:
+                raise ValidationError('Player is under 13')

@@ -10,12 +10,21 @@
                     <header>
                         <button type="object" name="start_league_button" string="Start league"
                                 attrs="{'invisible': [('state','in',('progress', 'completed', 'cancelled'))]}"
+                                groups="billiard_app.billiard_group_admin"
                                 class="oe_highlight"/>
                         <button type="object" name="end_league_button" string="End league"
                                 attrs="{'invisible': [('state','in',('draft', 'completed', 'cancelled'))]}"
+                                groups="billiard_app.billiard_group_admin"
                                 class="oe_highlight"/>
                         <button type="object" name="cancel_league_button" string="Cancel league"
-                                attrs="{'invisible': [('state','in',('draft', 'completed', 'cancelled'))]}"
+                                attrs="{'invisible': [('state','in',('progress', 'completed', 'cancelled'))]}"
+                                groups="billiard_app.billiard_group_admin"
+                                class="oe_highlight"/>
+                        <button type="object" name="back_to_draft" string="Back to draft"
+                                attrs="{'invisible': [('state','=','draft')]}"
+                                groups="billiard_app.billiard_group_admin"
+                                class="oe_highlight"/>
+                        <button type="object" name="create_fee" string="Input fee"
                                 class="oe_highlight"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,progress,completed,cancelled"/>
                     </header>
@@ -31,14 +40,19 @@
                                 <field name="total_fee"/>
                             </button>
                         </div>
-                        <group>
-                            <group>
+                        <div>
+                            <h1>
                                 <field name="name"
                                        attrs="{'readonly': [('state','in',('progress', 'completed', 'cancelled'))]}"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
                                 <field name="law_id"
                                        attrs="{'readonly': [('state','in',('progress', 'completed', 'cancelled'))]}"/>
                                 <field name="type"
                                        attrs="{'readonly': [('state','in',('progress', 'completed', 'cancelled'))]}"/>
+                                <field name="double_turn" widget="boolean_toggle"/>
                                 <field name="total_player"/>
                             </group>
                             <group>
@@ -48,24 +62,26 @@
 <!--                                       attrs="{'readonly': [('state','in',('progress', 'completed', 'cancelled'))]}"/>-->
                                 <field name="location"
                                        attrs="{'readonly': [('state','in',('progress', 'completed', 'cancelled'))]}"/>
+                                <field name="reason" attrs="{'invisible': [('state','!=','cancelled')]}"/>
                             </group>
                         </group>
                         <notebook>
                             <page string="Standing">
                                 <field name="participant_ids">
-                                    <tree editable="bottom">
-                                        <field name="player_id" readonly="1"/>
-                                        <field name="team_id" readonly="1"/>
-                                        <field name="match_ids" readonly="1"/>
-                                        <field name="ball_total" readonly="1"/>
+                                    <tree editable="bottom" default_order="total_point desc, win_total desc">
+                                        <field name="player_id" readonly="1" attrs="{'column_invisible': [('parent.type', '=', 'dual')]}"/>
+<!--                                        <field name="player_ids" readonly="1" widget="many2many_tags" attrs="{'column_invisible': [('parent.type', '=', 'solo')]}"/>-->
+                                        <field name="team_id" readonly="1" attrs="{'column_invisible': [('parent.type', '=', 'solo')]}"/>
+                                        <field name="match_total" readonly="1"/>
+                                        <field name="ball_total" readonly="1" attrs="{'column_invisible': [('parent.type', '=', 'dual')]}"/>
                                         <field name="win_total" readonly="1"/>
-                                        <field name="total_point"/>
+                                        <field name="total_point" attrs="{'column_invisible': [('parent.type', '=', 'dual')]}"/>
                                         <field name="win_rate" widget="percentage"/>
                                     </tree>
                                 </field>
                             </page>
                             <page string="Đội" attrs="{'invisible': [('type', '=', 'solo')]}">
-                                <field name="team_ids">
+                                <field name="team_ids" attrs="{'readonly': [('state','=','progress')]}">
                                     <tree editable="bottom">
                                         <field name="player_ids" widget="many2many_tags"/>
                                         <field name="name"/>

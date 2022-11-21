@@ -9,18 +9,58 @@
                 <form>
                     <header>
                         <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
-                        <button type="object" name="charge_button" string="Confirm"
+                        <button type="object" name="recharge_button" string="Confirm"
                                 attrs="{'invisible': [('state','=','done')]}"
                                 class="oe_highlight" groups="billiard_app.billiard_group_admin"/>
                     </header>
                     <sheet>
+                        <div>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
                         <group>
                             <group>
-                                <field name="name"/>
-                                <field name="player_id" attrs="{'readonly': [('state','=', 'done')]}"/>
+                                <field name="player_id"/>
                                 <field name="amount" attrs="{'readonly': [('state','=', 'done')]}"/>
-                                <field name="charge_date" attrs="{'readonly': [('state','=', 'done')]}"/>
-                                <field name="budget_id" attrs="{'readonly': [('state','=', 'done')]}" options="{'no_create': True, 'no_open': True}"/>
+                            </group>
+                            <group>
+                                <field name="recharge_date" attrs="{'readonly': [('state','=', 'done')]}"/>
+                                <field name="budget_id" attrs="{'readonly': [('state','=', 'done')]}" options="{'no_create': True, 'no_open': True}" required="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+         <record id="fund_form_2" model="ir.ui.view">
+            <field name="name">x.fund.form</field>
+            <field name="model">x.fund</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                        <button type="object" name="recharge_button" string="Confirm"
+                                attrs="{'invisible': [('state','=','done')]}"
+                                class="oe_highlight" groups="billiard_app.billiard_group_admin"/>
+                    </header>
+                    <sheet>
+                        <div>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="player_id"/>
+                                <field name="amount" attrs="{'readonly': [('state','=', 'done')]}"/>
+                                <field name="recharge_date" attrs="{'readonly': [('state','=', 'done')]}"/>
                             </group>
                         </group>
                     </sheet>
@@ -41,7 +81,7 @@
                     <field name="name"/>
                     <field name="player_id"/>
                     <field name="amount"/>
-                    <field name="charge_date"/>
+                    <field name="recharge_date"/>
                     <field name="budget_id"/>
                     <field name="state"/>
                 </tree>
@@ -57,7 +97,7 @@
                   <field name="name"/>
                     <field name="player_id"/>
                     <field name="amount"/>
-                    <field name="charge_date"/>
+                    <field name="recharge_date"/>
                     <field name="budget_id"/>
                     <field name="state"/>
                 </search>

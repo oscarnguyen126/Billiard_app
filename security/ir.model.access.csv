@@ -19,4 +19,8 @@ access_x_budget_billiard_group_admin,access_x_budget,model_x_budget,billiard_gro
 access_x_budget,access_x_budget,model_x_budget,billiard_group_user,1,0,0,0
 access_x_participants_billiard_group_admin,access_x_participants,model_x_participants,billiard_group_admin,1,1,1,1
 access_x_participants_billiard_group_user,access_x_participants,model_x_participants,billiard_group_user,1,0,0,0
+access_x_location_admin,access_x_location,model_x_location,billiard_group_admin,1,1,1,1
+access_x_budget,access_x_location,model_x_location,billiard_group_user,1,0,0,0
+access_x_league_cancel_wizard,access_x_league_cancel_wizard,model_x_league_cancel_wizard,,1,1,1,1
+
 
